@@ -11,14 +11,10 @@
 				<p>沈阳市大东区小十字街10号5门</p>
 				<p>18888</p>
 			</div>
-			<van-icon name="phone-o"  class="phone" @click="openDia"/>
+			<van-icon name="phone-o"  class="phone" @click="phone"/>
 			
 		</div>
-		<van-dialog v-model="show" :show-confirm-button="false" :overlay="true" :close-on-click-overlay="true">
-	<a href="tel://139ｘｘｘｘｘｘｘｘ" class="border-b">呼叫</a>
-		<a href="" class="border-b">呼叫</a>
-			<a href="wtai://wp/ap;137ｘｘｘｘｘｘｘｘ;" class="border-b">呼叫</a>
-</van-dialog>
+
 	</div>
 </template>
 
@@ -27,7 +23,7 @@
 		name: '',
 		data() {
 			return {
-				show:false,
+
 				images: [
 					'https://img.yzcdn.cn/vant/apple-1.jpg',
 
@@ -35,8 +31,8 @@
 			}
 		},
 		methods: {
-openDia(){
-	this.show = true
+phone(){
+ window.location.href = 'tel://18530285173'
 }
 		},
 		created() {
