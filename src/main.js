@@ -38,10 +38,8 @@ if(!getQueryString("code")||getQueryString("code")==''){
 	alert( getQueryString("code"))
 	$http({
 		url: 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx5122952d67353ac5&secret=ba13d281c8760f5c6b36b1f41059bc8a&code='+getQueryString("code")+'&grant_type=authorization_code',
-        method: 'get',
-        params: {
-        	code:getQueryString("code")}
-	}).then(res=>{
+        method: 'get'
+       }).then(res=>{
 		alert(res)
 		Cookie.set('userInfo',res)
 	}).catch(err=>{

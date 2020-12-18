@@ -1,5 +1,5 @@
 <template>
-	<div id="">123
+	<div id="">1234
 		<van-button type="primary">主要按钮</van-button>
 		{{url}}
 		<h1>{{u}}</h1>
