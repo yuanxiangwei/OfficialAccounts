@@ -32,7 +32,7 @@
 		},
 		methods: {
 phone(){
- window.location.href = 'tel://18530285173'
+ window.location.href = 'tel:18530285173'
 }
 		},
 		created() {
@@ -59,14 +59,14 @@ phone(){
 	}
 	
 	.details-left p {
-		font-size: .2rem;
+		font-size: .24rem;
 		color: #999;
 		line-height: 1.2em;
 	}
 	
 	.details-left p:first-child {
 		color: #333;
-		font-size: .28rem;
+		font-size: .32rem;
 		line-height: 2em;
 	}
 	.phone{

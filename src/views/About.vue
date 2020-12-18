@@ -54,7 +54,7 @@
 		text-align: left;
 	}
 	.hospital-box-title {
-		font-size: .32rem;
+		font-size: .36rem;
 		line-height: .8rem;
 		font-weight: 600;
 
@@ -70,14 +70,14 @@
 		height: 1.2rem;
 	}
 	.hospital-right{
-		padding:.2rem .24rem ;
+		padding:.1rem .24rem ;
 	}
 	.hospital-right p:first-child{
-		font-size: .28rem;
-		line-height: .4rem;
+		font-size: .32rem;
+		line-height: .6rem;
 	}
 	.hospital-right p:last-child{
-		font-size: .24rem;
+		font-size: .28rem;
 		color: #999;
 		line-height: .4rem;
 	}
