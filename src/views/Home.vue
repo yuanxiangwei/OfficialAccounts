@@ -2,6 +2,7 @@
 	<div id="">
 		<van-button type="primary">主要按钮</van-button>
 		{{url}}
+		{{code}}
 	</div>
 
 </template>
@@ -14,11 +15,13 @@ export default {
   name: '',
   data () {
     return {
- 	url:""
+ 	url:"",
+ 	code:''
     }
   },
-  create(){
+  created(){
   	this.url = window.location.href + window.location.url
+  	this.code = window.location
   },
   methods:{
 	a(){
