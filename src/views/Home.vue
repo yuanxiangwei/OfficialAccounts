@@ -1,8 +1,8 @@
 <template>
-	<div id="">
+	<div id="">1
 		<van-button type="primary">主要按钮</van-button>
 		{{url}}
-		<h1>{{user}}</h1>
+		<h1>{{u}}</h1>
 		{{code}}
 	</div>
 
@@ -14,6 +14,11 @@ import { Button } from 'vant';
 Vue.use(Button)
 export default {
   name: '',
+  computed:{
+  	u(){
+  		return Cookie.get('userInfo')
+  	}
+  },
   data () {
     return {
  	url:"",

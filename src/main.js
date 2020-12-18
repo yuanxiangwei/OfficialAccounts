@@ -36,7 +36,7 @@ if(!getQueryString("code")||getQueryString("code")==''){
         method: 'post',
         params: getQueryString("code")
 	}).then(res=>{
-		console.log(res)
+		alert(res)
 		Cookie.set('userInfo',res)
 	})
 }
