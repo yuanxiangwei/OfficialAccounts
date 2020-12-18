@@ -10,6 +10,7 @@ const service = axios.create({
 
 service.interceptors.request.use(
   config => {
+  	console.log(config,'config')
     return config;
   },
   error => {
