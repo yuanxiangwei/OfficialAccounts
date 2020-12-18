@@ -5,6 +5,8 @@ import { Button , Swipe , SwipeItem,Lazyload,List,Cell,Image as VanImage,Icon ,D
 import Cookie from 'js-cookie'
 import './config.js'
 import $http from './libs/request'
+import Vconsole from 'vconsole';
+new Vconsole();
 Vue.use(Button)
 Vue.use(Swipe)
 Vue.use(SwipeItem)
@@ -30,7 +32,7 @@ const WHITELIST = ['/']
 if(!getQueryString("code")||getQueryString("code")==''){
 	window.location.href = wxurl
 }else{
-
+	alert( getQueryString("code"))
 	$http({
 		url: 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx5122952d67353ac5&secret=ba13d281c8760f5c6b36b1f41059bc8a&code='+getQueryString("code")+'&grant_type=authorization_code',
         method: 'post',
