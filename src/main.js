@@ -15,10 +15,22 @@ Vue.use(VanImage)
 Vue.use(Icon)
 Vue.use(Dialog)
 Vue.config.productionTip = false
+function getQueryString(name) {
+  var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+  var r = window.location.hash.substr(1).match(reg)|| window.location.search.substr(1).match(reg);
+  if (r != null) {
+    return unescape(r[2]);
+  }
+  return null;
+}
+  console.log(getQueryString("code"),window.location)
 //https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx520c15f417810387&redirect_uri=https%3A%2F%2Fchong.qq.com%2Fphp%2Findex.php%3Fd%3D%26c%3DwxAdapter%26m%3DmobileDeal%26showwxpaytitle%3D1%26vb2ctag%3D4_2030_5_1194_60&response_type=code&scope=snsapi_base&state=123#wechat_redirect
 const wxurl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx5122952d67353ac5&redirect_uri=https%3a%2f%2fyuanxiangwei.github.io%2fOfficialAccounts%2fdist%2findex.html&response_type=code&scope=snsapi_userinfo&state=STATE&connect_redirect=1#wechat_redirect'
 const WHITELIST = ['/']
-window.location.href = wxurl
+if(!getQueryString("code")||getQueryString("code")==''){
+	window.location.href = wxurl
+}
+
 router.beforeEach(async (to, from, next)=>{
 //	console.log(to,from)
 //	if(WHITELIST.includes(to.path)){
