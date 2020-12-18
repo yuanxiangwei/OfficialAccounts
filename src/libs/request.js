@@ -5,7 +5,7 @@ const service = axios.create({
   // easy-mock服务挂了，暂时不使用了
 
   timeout: 60000,
-  withDirectives: true
+
 });
 
 service.interceptors.request.use(
