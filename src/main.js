@@ -40,6 +40,7 @@ router.beforeEach(async(to, from, next) => {
 			window.location.href = config.getWxUrl(location.href)
 		} else {
 			alert(CODE)
+			next()
 			// 为给定 ID 的 user 创建请求
 			axios.get(`https://www.qugouzhigong.top/syx_fy_api_module/wx_server/${CODE}/get_open_id`)
 				.then(function(response) {
