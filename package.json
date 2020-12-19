@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build",
+    "pub":"npm run build && git add . &&git commit -m a && git push"
   },
   "dependencies": {
     "axios": "^0.21.0",
