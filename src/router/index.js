@@ -11,7 +11,7 @@ const routes = [
     component: Home
   },
   {
-    path: '/registrationRecord',
+    path: '/registrationRecord',  //挂号记录
     name: 'registrationRecord',
     component: () => import(/* webpackChunkName: "about" */ '../views/registrationRecord.vue')
   },
@@ -21,17 +21,17 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/booked.vue')
   },
     {
-    path: '/myBookings',   //
+    path: '/myBookings',   //我的预约
     name: 'myBookings',
     component: () => import(/* webpackChunkName: "about" */ '../views/myBookings.vue')
   },
    {
-    path: '/case',   //
+    path: '/case',   //关联病例
     name: 'case',
     component: () => import(/* webpackChunkName: "about" */ '../views/case.vue')
   },
    {
-    path: '/recommend',
+    path: '/recommend',      //推荐人
     name: 'recommend',
     component: () => import(/* webpackChunkName: "about" */ '../views/recommend.vue')
   },
