@@ -32,7 +32,7 @@ export default {
   	this.url = window.location.href + window.location.url
   	this.code = window.location
   	setTimeout(()=>{
-  		  	this.user = Cookie.get('userInfo')
+  		  	this.user =	localStorage.getItem('openID')
   	},5000)
 
   },
