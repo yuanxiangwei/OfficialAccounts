@@ -1,17 +1,6 @@
-(function (doc, win) {
-    var docEl 
-    docEl = doc.documentElement,
-    resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
-    recalc = function () {
-      var clientWidth = docEl.clientWidth
-      if (!clientWidth) return
-      if (clientWidth >= 750) {
-        docEl.style.fontSize = '100px'
-      } else {
-        docEl.style.fontSize = 100 * (clientWidth / 750) + 'px'
-      }
-    }
-    if (!doc.addEventListener) return
-    win.addEventListener(resizeEvt, recalc, false)
-    doc.addEventListener('DOMContentLoaded', recalc, false)
-  })(document, window)
+export default {
+	appid:'wx5122952d67353ac5',
+	getWxUrl:function(url){
+		return	`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${this.appid}&redirect_uri=${encodeURIComponent(url)}&response_type=code&scope=snsapi_userinfo&state=STATE&connect_redirect=1#wechat_redirect`
+	}
+}
