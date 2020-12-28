@@ -4,7 +4,8 @@
 		<page-title title="预约登记表" :subTitle="storeName"></page-title>
 		<van-form @submit="onSubmit">
 			<van-field readonly clickable name="datetimePicker" :value="model.kkYyDates" label="预约日期" placeholder="请选择日期" @click="showCalendar = true" />
-			<van-field readonly clickable name="datetimePicker" :value="model.kkYyOnTime" label="选择时间" placeholder="点击选择时间" @click="showPickerTime = true" />
+<!--			
+			<van-field readonly clickable name="datetimePicker" :value="model.kkYyOnTime" label="选择时间" placeholder="点击选择时间" @click="showPickerTime = true" />-->
 
 			<van-field v-model="model.contact" name="name" label="姓名" placeholder="请输入姓名" />
 			<van-field readonly clickable :value="model.age" label="年龄" @touchstart.native.stop="show = true" placeholder="请输入年龄" />
@@ -19,7 +20,7 @@
 			<van-field v-model="model.mobile" label="手机号" type="tel" placeholder="请输入手机号" />
 			<van-field readonly clickable name="area" :value="model.address" label="居住地" placeholder="选择省市区" @click="showArea = true" />
 			<div style="margin: 16px;">
-				<van-button round block type="primary" native-type="submit">立即预约</van-button>
+				<van-button round block type="primary" native-type="submit">立即挂号</van-button>
 			</div>
 		</van-form>
 		<van-popup v-model="showArea" position="bottom">
@@ -39,6 +40,9 @@
 	import { Notify } from 'vant';
 	import axios from 'axios'
 	import config from '../config'
+	const FORMATDATE = function(date){
+		return  `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日`;
+	}
 	export default {
 		name: 'register',
 		components: {
@@ -51,8 +55,8 @@
 					orgId: this.$route.query.id,
 					openidOwn: localStorage.getItem('openID'),
 					age: '',
-					kkYyOnTime: '09:00',
-					kkYyDates: '',
+		//			kkYyOnTime: '09:00',
+					kkYyDates: FORMATDATE(new Date()),
 					contact: '',
 					sex: '',
 					mobile: '',
@@ -123,7 +127,7 @@
 				this.showArea = false;
 			},
 			onConfirm(date) {
-				this.model.kkYyDates = `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日`;
+				this.model.kkYyDates =FORMATDATE(date)
 				this.showCalendar = false;
 			},
 			verify() {
@@ -143,14 +147,18 @@
 			onSubmit() {
 				if(this.verify()) {
 					let data = JSON.parse(JSON.stringify(this.model))
-					data.kkYyOnTime += ':00'
+					data.kkYyOnTime = '00:00:00'
 					data.kkYyDates = data.kkYyDates.replace('年', '-').replace('月', '-').replace('日', '')
 					axios.post(`${config.baseUrl}/save_yy_gh`, data)
 						.then((res) => {
+								Notify({
+								type: 'success',
+								message: '挂号成功'
+							});
 							this.$router.push('myBookings')
 						})
 						.catch(err => {
-							Notify('预约失败')
+							Notify('挂号失败')
 						})
 				}
 			}

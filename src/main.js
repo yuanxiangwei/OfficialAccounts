@@ -43,7 +43,7 @@ function getQueryString(name) {
 
 const WHITELIST = []
 //localStorage.setItem('openID','wxaae04226b4e573d1')
-router.beforeEach(async(to, from, next) => {     //路由拦截  未授权和不在白名单
+router.beforeEach(async(to, from, next) => {     //路由拦截  未授权和
 	document.title = config.title + '-' + to.meta.title
 	if(!WHITELIST.includes(to.path) && (!localStorage.getItem('openID') || localStorage.getItem('openID') == '')) {
 		const CODE = getQueryString("code")
