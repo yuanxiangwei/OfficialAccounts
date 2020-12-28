@@ -1,84 +1,90 @@
 <template>
 	<div>
-		<van-swipe :autoplay="5000">
-			<van-swipe-item v-for="(image, index) in images" :key="index">
-				<img v-lazy="image" />
-			</van-swipe-item>
-		</van-swipe>
-		<div class="hospital-box">
-			<p class="hospital-box-title border-b">门诊列表</p>
-			<div class="hospital-item border-b" @click="gotoDetails">
-					<van-image class="hospital-img" src="https://img.yzcdn.cn/vant/cat.jpeg" />
-					<div class="hospital-right">
-						<p>疾控家园大门门诊部</p>
-						<p>沈阳市大东区小十字街10号5门</p>
-					</div>
+		<page-title title="关联病历号" subTitle="关联病历号之后，可以随时接收接种提醒，避免过号、误号等情况。"></page-title>
+		<van-cell-group>
+			<van-field v-model="value" label="病历号" placeholder="请输入病历号" />
+		</van-cell-group>
+			<van-button  block type="primary" class="mg20" @click="binding">立即绑定</van-button>
+			<div class="img-box">
+					<img :src="caseImg"/>
 			</div>
-		</div>
+				<van-list v-model="loading" style="min-height: 5rem;" :finished="finished">
+			<van-cell v-for="(item,index) in list" :key="index">
+				<div class="booking-item">
+					<div><span >病历号:{{item.kkBlh}}</span><span >绑定时间:{{item.dates+' '+item.onTime}}</span></div>
+					
+				</div>
+			</van-cell>
+		</van-list>
 	</div>
 </template>
 
 <script>
+	import PageTitle from './title.vue'
+		import { Notify } from 'vant';
+			import axios from 'axios'
+	import config from '../config'
 	export default {
 		name: '',
+		components: {
+			PageTitle
+		},
 		data() {
 			return {
 				loading: false,
-				finished: false,
-				list: [1],
-				images: [
-					'https://img.yzcdn.cn/vant/apple-1.jpg',
-					'https://img.yzcdn.cn/vant/apple-2.jpg',
-				],
+				finished: true,
+				list: [],
+				value: '',
+				caseImg:require('../assets/case.png')
 			}
 		},
 		methods: {
-	gotoDetails(){
-		this.$router.push('details')
-	}
+			binding(){
+				if(!this.value||this.value.trim()==''){
+					Notify('请输入病历号');
+					return false
+				}
+					axios.post(`${config.baseUrl}/save_bd_bl`,{
+						openidOwn:localStorage.getItem('openID'),
+						kkBlh:this.value
+					}).then(res=>{
+						this.getData()
+						this.value = ''
+						Notify({ type: 'success', message: '绑定成功' });
+					}).catch(err=>{
+						Notify('绑定失败');
+					})
+			},
+			getData() {
+			axios.get(`${config.baseUrl}/${localStorage.getItem('openID')}/get_kk_blb_by_openid`).then(res=>{
+				this.list  =res.data
+			}).catch(err=>{
+				Notify('获取病历列表失败');
+			})
+			}
 		},
 		mounted() {
-
+this.getData()
 		}
 	}
 </script>
 
 <style scoped>
-	img {
+	.mg20{
+		margin: .3rem auto .6rem;
+		width: 90%;
+	}
+	.img-box{
 		width: 100%;
-		height: 4rem;
+		text-align: center;
+		margin-bottom: .3rem;
 	}
-	
-	.hospital-box {
-		padding: 0 0.3rem;
-		text-align: left;
+	img{
+	width: 90%;
 	}
-	.hospital-box-title {
-		font-size: .36rem;
-		line-height: .8rem;
-		font-weight: 600;
-
-	}
-	.hospital-item{
-		padding: .24rem 0;
+	.booking-item div {
+		font-size: .24rem;
 		display: flex;
-		height: 1.2rem
-	}
-	.hospital-img{
-		flex-shrink:0;
-		width: 1.2rem;
-		height: 1.2rem;
-	}
-	.hospital-right{
-		padding:.1rem .24rem ;
-	}
-	.hospital-right p:first-child{
-		font-size: .32rem;
-		line-height: .6rem;
-	}
-	.hospital-right p:last-child{
-		font-size: .28rem;
-		color: #999;
-		line-height: .4rem;
+		justify-content: space-between;
 	}
 </style>

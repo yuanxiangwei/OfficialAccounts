@@ -1,84 +1,68 @@
 <template>
 	<div>
-		<van-swipe :autoplay="5000">
-			<van-swipe-item v-for="(image, index) in images" :key="index">
-				<img v-lazy="image" />
-			</van-swipe-item>
-		</van-swipe>
-		<div class="hospital-box">
-			<p class="hospital-box-title border-b">门诊列表</p>
-			<div class="hospital-item border-b" @click="gotoDetails">
-					<van-image class="hospital-img" src="https://img.yzcdn.cn/vant/cat.jpeg" />
-					<div class="hospital-right">
-						<p>疾控家园大门门诊部</p>
-						<p>沈阳市大东区小十字街10号5门</p>
+		<van-list v-model="loading" style="min-height: 5rem;" :finished="finished">
+			<van-cell v-for="(item,index) in list" :key="index">
+				<div class="booking-item">
+					<div><span >患者：</span><span class="name">{{item.contact}}</span></div>
+					<div><span>日期：</span>{{item.kkYyDates}}</div>
+					<div><span>门诊：</span>{{item.homeaddress}}</div>
+					<div class="booking-item-last">
+						<p><span>状态：</span>{{item.isDone=='N'?'未完成':'已完成'}}</p>
+						<p>{{item.kkYyDates}}  {{item.kkYyOnTime}}</p>
 					</div>
-			</div>
-		</div>
+				</div>
+			</van-cell>
+		</van-list>
 	</div>
 </template>
 
 <script>
+	import axios from 'axios'
+	import config from '../config'
 	export default {
 		name: '',
 		data() {
 			return {
+				list: [],
 				loading: false,
-				finished: false,
-				list: [1],
-				images: [
-					'https://img.yzcdn.cn/vant/apple-1.jpg',
-					'https://img.yzcdn.cn/vant/apple-2.jpg',
-				],
+				finished: true,
+
 			}
 		},
 		methods: {
-	gotoDetails(){
-		this.$router.push('details')
-	}
+			onLoad() {
+					axios.get(`${config.baseUrl}/${localStorage.getItem('openID')}/get_kk_yyue_by_openid`).then(res=>{
+						this.list = res.data.reverse()
+					})
+					.catch(err=>{
+						alert('获取失败')
+					})
+			}
 		},
-		mounted() {
-
+		created() {
+			this.onLoad()
 		}
 	}
 </script>
 
 <style scoped>
-	img {
-		width: 100%;
-		height: 4rem;
+	.booking-item{
+		padding: .5rem 0 .2rem;
 	}
+.booking-item div{
+	line-height: 2;
 	
-	.hospital-box {
-		padding: 0 0.3rem;
-		text-align: left;
-	}
-	.hospital-box-title {
-		font-size: .36rem;
-		line-height: .8rem;
-		font-weight: 600;
-
-	}
-	.hospital-item{
-		padding: .24rem 0;
-		display: flex;
-		height: 1.2rem
-	}
-	.hospital-img{
-		flex-shrink:0;
-		width: 1.2rem;
-		height: 1.2rem;
-	}
-	.hospital-right{
-		padding:.1rem .24rem ;
-	}
-	.hospital-right p:first-child{
-		font-size: .32rem;
-		line-height: .6rem;
-	}
-	.hospital-right p:last-child{
-		font-size: .28rem;
-		color: #999;
-		line-height: .4rem;
-	}
+}
+.booking-item .booking-item-last{
+	display: flex;
+	justify-content: space-between;
+}
+.booking-item div span{
+	font-size: .3rem;
+	font-weight: 600;
+}
+.booking-item div .name{
+	color: #8d2ede;
+	font-size: .36rem;
+}
 </style>
