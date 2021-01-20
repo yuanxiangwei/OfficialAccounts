@@ -3,13 +3,14 @@
 
 		<page-title title="预约登记表" :subTitle="storeName"></page-title>
 		<van-form @submit="onSubmit">
-			<van-field readonly clickable name="datetimePicker" :value="model.kkYyDates" label="预约日期" placeholder="请选择日期" @click="showCalendar = true" />
+			<van-field 
+    required readonly clickable name="datetimePicker" :value="model.kkYyDates" label="预约日期" placeholder="请选择日期" @click="showCalendar = true" />
 <!--			
 			<van-field readonly clickable name="datetimePicker" :value="model.kkYyOnTime" label="选择时间" placeholder="点击选择时间" @click="showPickerTime = true" />-->
 
-			<van-field v-model="model.contact" name="name" label="姓名" placeholder="请输入姓名" />
-			<van-field readonly clickable :value="model.age" label="年龄" @touchstart.native.stop="show = true" placeholder="请输入年龄" />
-			<van-field name="radio" label="性别">
+			<van-field   required v-model="model.contact" name="name" label="姓名" placeholder="请输入姓名" />
+			<van-field   required readonly clickable :value="model.age" label="年龄" @touchstart.native.stop="show = true" placeholder="请输入年龄" />
+			<van-field    required name="radio" label="性别">
 				<template #input>
 					<van-radio-group v-model="model.sex" direction="horizontal">
 						<van-radio name="男">男</van-radio>
@@ -17,8 +18,9 @@
 					</van-radio-group>
 				</template>
 			</van-field>
-			<van-field v-model="model.mobile" label="手机号" type="tel" placeholder="请输入手机号" />
-			<van-field readonly clickable name="area" :value="model.address" label="居住地" placeholder="选择省市区" @click="showArea = true" />
+			<van-field   required v-model="model.mobile" label="手机号" type="tel" placeholder="请输入手机号" />
+			<van-field v-model="model.idCard" type="number" label="身份证号" placeholder="请输入身份证号" />
+			<van-field   required readonly clickable name="area" :value="model.address" label="居住地" placeholder="选择省市区" @click="showArea = true" />
 			<div style="margin: 16px;">
 				<van-button round block type="primary" native-type="submit">立即挂号</van-button>
 			</div>
@@ -26,7 +28,7 @@
 		<van-popup v-model="showArea" position="bottom">
 			<van-area title="选择居住地" :area-list="areaList" @confirm="onAreaConfirm" @cancel="showArea = false" value="210000" />
 		</van-popup>
-		<van-number-keyboard v-model="model.age" :show="show" :maxlength="3" title="请选择年龄" @blur="show = false" />
+		<van-number-keyboard v-model="model.age" :show="show" :maxlength="3" title="请输入年龄" @blur="show = false" />
 		<van-calendar title="选择预约日期" v-model="showCalendar" @confirm="onConfirm" />
 		<van-popup v-model="showPickerTime" position="bottom">
 			<van-datetime-picker type="time" title="选择时间" :value="model.kkYyOnTime" @confirm="onTimeConfirm" @cancel="showPickerTime = false" />
@@ -54,12 +56,13 @@
 				model: {
 					orgId: this.$route.query.id,
 					openidOwn: localStorage.getItem('openID'),
-					age: '',
+					age: localStorage.getItem('userAge')||'',
+					idCard:'',
 		//			kkYyOnTime: '09:00',
 					kkYyDates: FORMATDATE(new Date()),
-					contact: '',
-					sex: '',
-					mobile: '',
+					contact: localStorage.getItem('userName')||'',
+					sex:  localStorage.getItem('userSex')||'',
+					mobile: localStorage.getItem('userPhone')||'',
 					address: ''
 				},
 				verifyMsg: {

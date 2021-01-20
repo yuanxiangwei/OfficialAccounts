@@ -3,13 +3,13 @@
 		<van-list v-model="loading" style="min-height: 5rem;" :finished="finished">
 			<van-cell v-for="(item,index) in list" :key="index">
 				<div class="booking-item">
-					<div><span >患者：</span><span class="name">{{item.contact}}</span></div>
-					<div><span>日期：</span>{{item.kkYyDates}}</div>
-					<div><span>门诊：</span>{{item.homeaddress}}</div>
-					<div class="booking-item-last">
+					<div><span >疫苗名称：</span><span class="name">{{item.goodsname}}</span></div>
+					<div><span>交款日期：</span>{{item.dates}}</div>
+					<div><span>当前排名：</span>{{item.sn}}</div>
+					<!--<div class="booking-item-last">
 						<p><span>状态：</span>{{item.isDone=='N'?'未完成':'已完成'}}</p>
 						<p>{{item.kkYyDates}}  {{item.kkYyOnTime}}</p>
-					</div>
+					</div>-->
 				</div>
 			</van-cell>
 		</van-list>

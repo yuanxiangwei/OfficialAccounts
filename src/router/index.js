@@ -13,6 +13,15 @@ const routes = [{
 		}
 
 	},
+		{
+		path: '/perfectInformation', //完善信息
+		name: 'perfectInformation',
+		meta: {
+			title: '完善信息'
+		},
+		component: () =>
+			import( /* webpackChunkName: "about" */ '../views/perfectInformation.vue')
+	},
 	{
 		path: '/registrationRecord', //我的接种
 		name: 'registrationRecord',
