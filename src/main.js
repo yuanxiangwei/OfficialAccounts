@@ -31,7 +31,7 @@ Vue.use(Radio)
 Vue.use(Area)
 Vue.use(Popup)
 
-//Vue.use(Area)
+
 Vue.config.productionTip = false
 
 function getQueryString(name) {
@@ -68,9 +68,7 @@ async function isPerfectUserInfo(to, next) {
 			}
 		}).catch(function(error) {
 			alert(error)
-
 		});
-
 	}
 }
 router.beforeEach(async(to, from, next) => { //路由拦截  未授权和
@@ -89,7 +87,6 @@ router.beforeEach(async(to, from, next) => { //路由拦截  未授权和
 				})
 				.catch(function(error) {
 					alert(error)
-					console.log(error);
 				});
 		}
 	} else {

@@ -18,9 +18,6 @@
 					</div>
 				</van-cell>
 			</van-list>
-			<!--<div >
-			
-			</div>-->
 		</div>
 	</div>
 </template>
