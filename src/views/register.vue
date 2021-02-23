@@ -3,14 +3,13 @@
 
 		<page-title title="预约登记表" :subTitle="storeName"></page-title>
 		<van-form @submit="onSubmit">
-			<van-field 
-    required readonly clickable name="datetimePicker" :value="model.kkYyDates" label="预约日期" placeholder="请选择日期" @click="showCalendar = true" />
-<!--			
+			<van-field required readonly clickable name="datetimePicker" :value="model.kkYyDates" label="预约日期" placeholder="请选择日期" @click="showCalendar = true" />
+			<!--			
 			<van-field readonly clickable name="datetimePicker" :value="model.kkYyOnTime" label="选择时间" placeholder="点击选择时间" @click="showPickerTime = true" />-->
 
-			<van-field   required v-model="model.contact" name="name" label="姓名" placeholder="请输入姓名" />
-			<van-field   required readonly clickable :value="model.age" label="年龄" @touchstart.native.stop="show = true" placeholder="请输入年龄" />
-			<van-field    required name="radio" label="性别">
+			<van-field required v-model="model.contact" name="name" label="姓名" placeholder="请输入姓名" />
+			<van-field required readonly clickable :value="model.age" label="年龄" @touchstart.native.stop="show = true" placeholder="请输入年龄" />
+			<van-field required name="radio" label="性别">
 				<template #input>
 					<van-radio-group v-model="model.sex" direction="horizontal">
 						<van-radio name="男">男</van-radio>
@@ -18,11 +17,11 @@
 					</van-radio-group>
 				</template>
 			</van-field>
-			<van-field   required v-model="model.mobile" label="手机号" type="tel" placeholder="请输入手机号" />
-			<van-field v-model="model.idCard" type="number" label="身份证号" placeholder="请输入身份证号" />
-			<van-field   required readonly clickable name="area" :value="model.address" label="居住地" placeholder="选择省市区" @click="showArea = true" />
+			<van-field required v-model="model.mobile" label="手机号" type="tel" placeholder="请输入手机号" />
+			<van-field v-model="model.idCard" type="card" label="身份证号" placeholder="请输入身份证号" />
+			<van-field required readonly clickable name="area" :value="model.address" label="居住地" placeholder="选择省市区" @click="showArea = true" />
 			<div style="margin: 16px;">
-				<van-button round block type="primary" native-type="submit">立即挂号</van-button>
+				<van-button :disabled="disabled" round block type="primary" native-type="submit">立即挂号</van-button>
 			</div>
 		</van-form>
 		<van-popup v-model="showArea" position="bottom">
@@ -42,8 +41,10 @@
 	import { Notify } from 'vant';
 	import axios from 'axios'
 	import config from '../config'
-	const FORMATDATE = function(date){
-		return  `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日`;
+	const FORMATDATE = function(date) {
+		let month = date.getMonth() + 1
+		let day = date.getDate()
+		return `${date.getFullYear()}年${month<10?'0'+month:month}月${day<10?"0"+day:day}日`;
 	}
 	export default {
 		name: 'register',
@@ -52,17 +53,18 @@
 		},
 		data() {
 			return {
+				disabled: false,
 				storeName: this.$route.query.name,
 				model: {
 					orgId: this.$route.query.id,
 					openidOwn: localStorage.getItem('openID'),
-					age: localStorage.getItem('userAge')||'',
-					idCard:'',
-		//			kkYyOnTime: '09:00',
+					age: localStorage.getItem('userAge') || '',
+					idCard: '',
+					//			kkYyOnTime: '09:00',
 					kkYyDates: FORMATDATE(new Date()),
-					contact: localStorage.getItem('userName')||'',
-					sex:  localStorage.getItem('userSex')||'',
-					mobile: localStorage.getItem('userPhone')||'',
+					contact: localStorage.getItem('userName') || '',
+					sex: localStorage.getItem('userSex') || '',
+					mobile: localStorage.getItem('userPhone') || '',
 					address: ''
 				},
 				verifyMsg: {
@@ -130,10 +132,18 @@
 				this.showArea = false;
 			},
 			onConfirm(date) {
-				this.model.kkYyDates =FORMATDATE(date)
+				this.model.kkYyDates = FORMATDATE(date)
 				this.showCalendar = false;
 			},
 			verify() {
+				if(this.model.idCard && this.model.idCard != '') {
+					var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+
+					if(!reg.test(this.model.idCard)) {
+						Notify('请输入正确的身份证号');
+						return false
+					}
+				}
 				for(let key in this.verifyMsg) {
 					let obj = this.model[key]
 					if(obj == '' || (Array.prototype.isPrototypeOf(obj) && obj.length === 0)) {
@@ -145,22 +155,33 @@
 						return false
 					}
 				}
+				if(this.model.idCard && this.model.idCard != '') {
+					var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+					if(!reg.test(this.model.idCard)) {
+						Notify('请输入正确的身份证号');
+						return false
+					}
+				}
+
 				return true
 			},
 			onSubmit() {
 				if(this.verify()) {
+					this.disabled = true
 					let data = JSON.parse(JSON.stringify(this.model))
 					data.kkYyOnTime = '00:00:00'
 					data.kkYyDates = data.kkYyDates.replace('年', '-').replace('月', '-').replace('日', '')
 					axios.post(`${config.baseUrl}/save_yy_gh`, data)
 						.then((res) => {
-								Notify({
+							Notify({
 								type: 'success',
 								message: '挂号成功'
 							});
+							this.disabled = false
 							this.$router.push('myBookings')
 						})
 						.catch(err => {
+							this.disabled = false
 							Notify('挂号失败')
 						})
 				}

@@ -5,13 +5,12 @@
 				<div class="booking-item">
 					<div><span class="label">病历号：</span>{{item.kkBlh}}</div>
 					<div><span class="label">商品名称：</span>{{item.goodsName}}</div>
-					<div><span class="label">接种数：</span>{{item.execNum}}</div>
-					<div><span class="label">接种次数：</span>{{item.kkCs}}</div>
-					<div><span class="label">下一针：</span>{{item.nextz}}</div>
-					<div><span class="label">开方数：</span>{{item.num}}</div>
-					<div><span class="label">规格：</span>{{item.goodsSpec}}</div>
-					<div><span class="label">商品编号：</span>{{item.goodsCode}}</div>
-					<div><span class="label">产地：</span>{{item.manufacturer}}</div>
+					
+					<div><span class="label">接种机构：</span>{{item.orgname}}</div>
+					<div><span class="label">接种针次：</span>{{item.execnum}}</div>
+					<div><span class="label">接种日期：</span>{{item.dates}}</div>
+					<div><span class="label">生产厂家：</span>{{item.manufacturer}}</div>
+				
 
 				</div>
 			</van-cell>

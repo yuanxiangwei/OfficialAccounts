@@ -89,7 +89,7 @@
 	.hospital-item {
 		
 		display: flex;
-		height: 1.2rem;
+		align-items: center
 	}
 	
 	.hospital-img {
